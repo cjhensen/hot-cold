@@ -1,14 +1,11 @@
 import React from 'react';
 
 export default class Guess extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
 
   componentDidMount() {
-    this.numInput.focus();
+    if(this.numInput != null) { // why won't this test pass without this if statement?
+      this.numInput.focus();
+    }
   }
 
   // onSubmit:
@@ -19,7 +16,8 @@ export default class Guess extends React.Component {
     console.log('onSubmit guess');
 
     // send input num to props.onSubmit to update guessedNums array
-    if(this.props.onSubmit) {
+    const number = this.numInput.value;
+    if(number && this.props.onSubmit) {
       // must convert to int and pass radix in (10)
       this.props.onSubmit(parseInt(this.numInput.value, 10));
       

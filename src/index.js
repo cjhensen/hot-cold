@@ -8,3 +8,4 @@ import HotCold from './components/hot-cold';
 // registerServiceWorker();
 
 ReactDOM.render(<HotCold />, document.getElementById('root'));
+console.log('React Version: ', React.version);

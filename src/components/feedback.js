@@ -1,8 +1,6 @@
 import React from 'react';
 
 export default function Feedback(props) {
-  console.log('feedback num', props.currentGuess)
-  console.log('answer num', props.answerNum)
 
   let feedbackMsg = "Make your guess!";
 

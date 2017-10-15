@@ -3,7 +3,7 @@ import React from 'react';
 export default function History(props) {
 
   const guessedNums = props.guessedNums.map((num, index) =>
-    <li key={index}>{num}</li>
+    <li key={index} className="history-element">{num}</li>
   );
 
   return(
