@@ -1,82 +1,45 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
+import {updateGuessedNums, updateGuessCounter, resetGame} from '../actions';
+
 import Feedback from './feedback';
 import Guess from './guess';
 import History from './history';
 
-export default class HotCold extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      guessedNums: [],
-      answerNum: this.generateRandomNum(),
-      guessCounter: 0
-    };
-  }
+export class HotCold extends React.Component {
 
   // handleFormSubmit:
   // update guessed nums array in state
   // update guess counter array in state
   handleFormSubmit(num) {
-    this.updateGuessedNums(num);
-    this.updateGuessCounter();
+    this.props.dispatch(updateGuessedNums(num));
+    this.props.dispatch(updateGuessCounter());
   }
 
-  // updateGuessedNums:
-  // update the state's guessedNums array
-  updateGuessedNums(num) {
-    console.log('updateGuessedNums');
-    this.setState(previousState =>({
-      guessedNums: [...previousState.guessedNums, num]
-    }));
-  }
-
-  // updateGuessCounter
-  updateGuessCounter() {
-    this.setState(previousState => ({
-      guessCounter: previousState.guessCounter + 1
-    }));
-  }
-
-  // generateRandomNum:
-  // generate a random int between 1 and 100
-  generateRandomNum() {
-    // Max 100
-    // Min 1
-    return Math.floor(Math.random() * (100 - 1 + 1) + 1);
-  }
-
-
-  // resetGame:
-  // 
+  // resetGame
   resetGame() {
     console.log('resetGame');
-    // new answerNum
-    this.setState({
-      guessedNums: [],
-      answerNum: this.generateRandomNum(),
-      guessCounter: 0
-    });
-
-    // other stuff for reset...
+    this.props.dispatch(resetGame());
   }
 
-  render() {
 
+  render() {
 
     return (
       <div className="app">
         <Feedback
-          answerNum={this.state.answerNum}
-          currentGuess={this.state.guessedNums.slice(-1)[0]}
+          answerNum={this.props.answerNum}
+          currentGuess={this.props.guessedNums.slice(-1)[0]}
         />
 
         <Guess 
           onSubmit={value => this.handleFormSubmit(value)}
-          guessCounter={this.state.guessCounter} 
+          guessCounter={this.props.guessCounter} 
         />
 
         <History 
-          guessedNums={this.state.guessedNums}
+          guessedNums={this.props.guessedNums}
         />
 
         <button 
@@ -90,3 +53,11 @@ export default class HotCold extends React.Component {
 
   }
 }
+
+
+const mapStateToProps = state => ({
+  guessedNums: state.guessedNums,
+  answerNum: state.answerNum,
+  guessCounter: state.guessCounter
+});
+export default connect(mapStateToProps)(HotCold);
